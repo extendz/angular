@@ -1,0 +1,37 @@
+table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+th {
+  color: #616161;
+  font-weight: 100;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+input::-webkit-color-swatch {
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+mat-icon {
+  cursor: pointer;
+  filter: drop-shadow(1px 5px 4px rgba(0, 0, 0, 0.24));
+}
+
+$width: 24px;
+
+.c-tile {
+  width: 42px;
+  height: $width;
+  cursor: pointer;
+}
+
+.c-name {
+  padding-inline-end: 2vw;
+  color: #999;
+}

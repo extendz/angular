@@ -1,0 +1,51 @@
+{
+  "name": "batch",
+  "config": {
+    "entity": {
+      "enableProjection": true,
+      "projection": "entity"
+    },
+    "expand": {
+      "projection": "expand"
+    }
+  },
+  "projections": {
+    "dataTable": [
+      { "name": "id", "type": "string" },
+      { "name": "product", "type": "string" },
+      { "name": "initialQuantity", "type": "number" },
+      { "name": "manufacturedDate", "type": "date" },
+      { "name": "note", "type": "string" }
+    ],
+    "expand": [
+      { "name": "id", "type": "string" },
+      { "name": "initialQuantity", "type": "number" },
+      { "name": "manufacturedDate", "type": "date" }
+    ]
+  },
+  "properties": {
+    "product": {
+      "name": "product",
+      "type": "object",
+      "reference": "product",
+      "required": true,
+      "config": {
+        "select": { "search": { "show": true } }
+      },
+      "width": { "lg": "32" }
+    },
+    "initialQuantity": {
+      "name": "initialQuantity",
+      "type": "number",
+      "required": true,
+      "width": { "lg": "32" }
+    },
+    "manufacturedDate": {
+      "name": "manufacturedDate",
+      "type": "date",
+      "required": true,
+      "width": { "lg": "32" }
+    },
+    "note": { "name": "note", "type": "string", "width": { "lg": "100" } }
+  }
+}

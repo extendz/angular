@@ -1,0 +1,408 @@
+{
+  "name": "salesOrder",
+  "config": {
+    "entity": {
+      "enableProjection": true,
+      "projection": "entity",
+      "toolbar": {
+        "color": "primary",
+        "status": {
+          "text": "status",
+          "progress": "progress"
+        },
+        "actions": [
+          {
+            "id": "createProject",
+            "displayName": "Create Project",
+            "hide": {
+              "property": "project",
+              "assert": "NotNull"
+            }
+          },
+          {
+            "id": "viewProject",
+            "displayName": "View Project",
+            "hide": {
+              "property": "project",
+              "assert": "Null"
+            }
+          }
+        ]
+      },
+      "events": {
+        "RowUpdated": [{ "action": "__fetch_entity__" }]
+      }
+    }
+  },
+  "validators": [
+    { "on": "status", "value": "Planned", "assert": "NotEqual", "disable": ["customer"] }
+  ],
+  "projections": {
+    "dataTable": [
+      { "name": "id", "type": "link" },
+      { "name": "createdDate", "type": "date" },
+      { "name": "customer", "type": "string" },
+      { "name": "wantedDeliveryDate", "type": "date", "enableInlineEdit": true },
+      { "name": "status", "type": "string" }
+    ]
+  },
+  "properties": {
+    "id": {
+      "name": "id",
+      "type": "string",
+      "generated": true,
+      "width": { "lg": "24", "xs": "100" }
+    },
+    "customer": {
+      "name": "customer",
+      "type": "object",
+      "required": true,
+      "reference": "customer",
+      "config": {
+        "select": { "search": { "show": true }, "add": { "show": true }, "more": { "show": true } }
+      },
+      "width": { "lg": "24" }
+    },
+    "deliveryAddress": {
+      "name": "deliveryAddress",
+      "type": "string",
+      "generated": true,
+      "width": { "lg": "49" }
+    },
+    "wantedDeliveryDate": {
+      "name": "wantedDeliveryDate",
+      "type": "date",
+      "width": { "lg": "24" }
+    },
+    "salesRepresentative": {
+      "name": "salesRepresentative",
+      "type": "object",
+      "reference": "salesRepresentative",
+      "config": {
+        "select": { "search": { "show": true }, "add": { "show": true }, "more": { "show": true } }
+      },
+      "width": { "lg": "24" }
+    },
+    "discountType": {
+      "name": "discountType",
+      "type": "enum",
+      "enums": ["Price", "Percentage"],
+      "width": { "lg": "24" }
+    },
+    "discount": {
+      "name": "discount",
+      "type": "money",
+      "width": { "lg": "24" }
+    },
+    "totalAmount": { "name": "totalAmount", "type": "money", "width": { "lg": "24" } },
+    "totalPaid": { "name": "totalPaid", "type": "money", "width": { "lg": "24" } },
+    "balancePayment": { "name": "balancePayment", "type": "money", "width": { "lg": "24" } },
+    "createdDate": {
+      "name": "createdDate",
+      "type": "date",
+      "generated": true,
+      "width": { "lg": "24", "xs": "100" }
+    },
+    "progress": { "name": "progress" },
+    "status": {
+      "name": "status",
+      "default": "Planned",
+      "enums": [
+        "Planned",
+        "PartiallyReserved",
+        "Reserved",
+        "PartiallyDelivered",
+        "Delivered",
+        "PaidClosed",
+        "Cancelled"
+      ]
+    },
+    "_spacer": { "width": { "lg": "24" } },
+    "_tabs": {
+      "type": "tabs",
+      "width": { "lg": "100" },
+      "tabs": [
+        {
+          "name": "orderLines",
+          "displayName": "Order Lines",
+          "type": "objectList",
+          "reference": "salesOrderLine",
+          "width": { "lg": "100vw" },
+          "mutations": {
+            "product": [
+              {
+                "type": "Update",
+                "from": "unitPrice",
+                "to": ["price"]
+              }
+            ],
+            "quantity": [{ "type": "Disable", "to": ["reservedQuantity"] }]
+          },
+          "events": {
+            "Saved": [
+              {
+                "type": "Enable",
+                "to": ["*"]
+              }
+            ]
+          },
+          "entityMeta": {
+            "config": {
+              "toolbar": {
+                "enabled": true,
+                "fab": {
+                  "id": "__add__",
+                  "reference": "salesOrderLine",
+                  "color": "primary",
+                  "icon": "add"
+                }
+              }
+            },
+            "validators": [
+              { "on": "status", "value": "Planned", "assert": "NotEqual", "disable": ["product"] }
+            ],
+            "properties": {
+              "lineNumber": {
+                "name": "lineNumber",
+                "type": "index",
+                "width": { "lg": "8" }
+              },
+              "product": {
+                "name": "product",
+                "type": "object",
+                "reference": "product",
+                "required": true,
+                "labelFloat": false,
+                "config": {
+                  "select": {
+                    "search": {
+                      "show": true
+                    },
+                    "add": {
+                      "show": false
+                    }
+                  }
+                },
+                "width": { "value": "95%" }
+              },
+              "quantity": {
+                "name": "quantity",
+                "type": "number",
+                "width": { "lg": "8" }
+              },
+              "reservedQuantity": {
+                "name": "reservedQuantity",
+                "type": "number",
+                "inlineEdit": {
+                  "enabled": true,
+                  "showAlways": true,
+                  "fxLayoutAlign": "space-between center",
+                  "action": {
+                    "pathVariable": "reserve",
+                    "successMessage": "Operation Successful"
+                  }
+                },
+                "width": { "lg": "10" }
+              },
+              "deliveredQuantity": {
+                "name": "deliveredQuantity",
+                "type": "number",
+                "generated": true,
+                "width": { "lg": "10" }
+              },
+              "price": {
+                "name": "price",
+                "type": "money",
+                "generated": true,
+                "width": { "lg": "15" }
+              },
+              "status": {
+                "name": "status",
+                "type": "enum",
+                "generated": true,
+                "default": "Planned",
+                "enums": [
+                  "Planned",
+                  "PartiallyReserved",
+                  "Reserved",
+                  "PartiallyDelivered",
+                  "Delivered",
+                  "Cancelled"
+                ],
+                "width": { "lg": "10" }
+              },
+              "delete": {
+                "name": "delete",
+                "type": "action",
+                "actions": [
+                  {
+                    "operation": "delete",
+                    "pre": {
+                      "assert": "NotEqual",
+                      "on": "status",
+                      "value": "Planned",
+                      "message": "Unreserve the reserved quantity first"
+                    },
+                    "post": {}
+                  }
+                ],
+                "icon": "delete",
+                "width": { "lg": "4" },
+                "hide": {
+                  "property": "_links",
+                  "assert": "Null"
+                }
+              },
+              "remove": {
+                "name": "remove",
+                "type": "action",
+                "actions": [{ "operation": "remove" }],
+                "icon": "close",
+                "width": { "lg": "4" },
+                "hide": {
+                  "property": "_links",
+                  "assert": "NotNull",
+                  "emptyValue": false
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "charges",
+          "displayName": "Charges",
+          "type": "objectList",
+          "reference": "salesOrderCharge",
+          "mutations": {
+            "type": [
+              {
+                "type": "update",
+                "from": "defaultAmount",
+                "to": ["amount"]
+              }
+            ]
+          },
+          "entityMeta": {
+            "config": {
+              "toolbar": {
+                "enabled": true,
+                "fab": {
+                  "id": "__add__",
+                  "reference": "salesOrderLine",
+                  "color": "primary",
+                  "icon": "add"
+                }
+              }
+            },
+            "properties": {
+              "lineNumber": {
+                "name": "lineNumber",
+                "type": "index",
+                "width": { "lg": "8" }
+              },
+              "type": {
+                "name": "type",
+                "type": "object",
+                "reference": "salesChargeType",
+                "width": { "lg": "30" },
+                "config": {
+                  "select": {
+                    "search": {
+                      "show": true
+                    }
+                  }
+                }
+              },
+              "amount": {
+                "name": "amount",
+                "type": "money",
+                "width": { "lg": "15" }
+              },
+              "description": {
+                "name": "description",
+                "type": "string",
+                "width": { "lg": "45" }
+              }
+            }
+          }
+        },
+        {
+          "name": "deliveries",
+          "displayName": "Deliveries",
+          "reference": "deliveryOrderLine",
+          "entityMeta": {
+            "config": {
+              "table": {
+                "enableAdd": false
+              }
+            },
+            "properties": {
+              "deliveryOrder": {
+                "name": "deliveryOrder",
+                "generated": true,
+                "type": "string"
+              },
+              "deliveryLineNumber": {
+                "name": "deliveryLineNumber",
+                "generated": true,
+                "type": "number"
+              },
+              "dispatchDate": {
+                "name": "dispatchDate",
+                "generated": true,
+                "type": "date"
+              },
+
+              "quantity": {
+                "name": "quantity",
+                "generated": true,
+                "type": "number"
+              }
+            }
+          }
+        },
+        {
+          "name": "payments",
+          "displayName": "Payments",
+          "reference": "customerPayment",
+          "type": "objectList",
+          "entityMeta": {
+            "config": {
+              "toolbar": {
+                "enabled": true,
+                "fab": {
+                  "id": "__add__",
+                  "reference": "salesOrderLine",
+                  "color": "primary",
+                  "icon": "add"
+                }
+              }
+            },
+            "properties": {
+              "lineNumber": {
+                "name": "lineNumber",
+                "type": "index",
+                "width": { "lg": "8" }
+              },
+              "description": {
+                "name": "description",
+                "type": "string",
+                "labelFloat": false,
+                "width": { "lg": "20" }
+              },
+              "amount": {
+                "name": "amount",
+                "type": "money",
+                "width": { "lg": "20" }
+              },
+              "note": {
+                "name": "note",
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

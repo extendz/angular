@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Fields</h2>
+<mat-dialog-content>
+  <ext-data-table [formMetadata]="formMetadata" [data]="data"></ext-data-table>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span fxFlex></span>
+  <button mat-button [mat-dialog-close]="undefined">Add</button>
+  <button mat-raised-button color="primary" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

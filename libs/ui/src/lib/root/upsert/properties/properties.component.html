@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Fields</h2>
+<mat-dialog-content>
+  <div fxLayout="column" style="width: 15vw; padding-right: 16px">
+    <mat-nav-list dense>
+      <mat-list-item *ngFor="let n of fields" (click)="onField(n)">
+        {{ n.label }}
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+  <mat-divider vertical style="height: auto"></mat-divider>
+  <div fxFlex style="padding-left: 16px" *ngIf="currentField !== undefined">
+    <!-- {{ fromGroup?.dirty | json }} -->
+    <ext-basic-form
+      [formMetadata]="formMetadata"
+      (form)="setFormGroup($event)"
+    ></ext-basic-form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button>Add</button>
+  <span fxFlex></span>
+  <button mat-button [mat-dialog-close]="undefined">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="fields"
+    cdkFocusInitial
+  >
+    Save
+  </button>
+</mat-dialog-actions>

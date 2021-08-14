@@ -1,0 +1,33 @@
+<mat-form-field>
+  <mat-label>{{ fieldMetaData?.label }}</mat-label>
+  <input matInput type="text" [value]="control.value" [formControl]="control" />
+
+  <mat-icon
+    matSuffix
+    (click)="this.openPopOver($event)"
+    [style.color]="control.value"
+    >palette</mat-icon
+  >
+  <mat-error *ngIf="control.hasError('required')">
+    {{ fieldMetaData?.label }} is <strong>required</strong>
+  </mat-error>
+</mat-form-field>
+<ng-template #dialog>
+  <table>
+    <tr>
+      <th></th>
+      <th *ngFor="let c of columns">
+        {{ c }}
+      </th>
+    </tr>
+    <tr *ngFor="let c of colors">
+      <td class="c-name">{{ c.name | camelCase }}</td>
+      <td
+        class="c-tile"
+        *ngFor="let v of c.values"
+        (click)="onColor(v)"
+        [style.background-color]="v.hex"
+      ></td>
+    </tr>
+  </table>
+</ng-template>

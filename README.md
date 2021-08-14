@@ -103,3 +103,7 @@ Nx Cloud pairs with Nx in order to enable you to build and test code more rapidl
 Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
 
 Visit [Nx Cloud](https://nx.app/) to learn more.
+
+
+ng g @nrwl/angular:lib pipe --publishable --importPath @extendz/pipe
+ng g @nrwl/angular:lib directive --publishable --importPath @extendz/directive

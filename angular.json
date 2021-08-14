@@ -1,15 +1,165 @@
 {
   "version": 1,
   "projects": {
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": [
+              "apps/api/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/api/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/api"
+          ],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "core": {
+      "projectType": "library",
+      "root": "libs/core",
+      "sourceRoot": "libs/core/src",
+      "prefix": "extendz",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/core"
+          ],
+          "options": {
+            "project": "libs/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/core"
+          ],
+          "options": {
+            "jestConfig": "libs/core/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/core/src/**/*.ts",
+              "libs/core/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "directive": {
+      "projectType": "library",
+      "root": "libs/directive",
+      "sourceRoot": "libs/directive/src",
+      "prefix": "extendz",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/directive"
+          ],
+          "options": {
+            "project": "libs/directive/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/directive/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/directive/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/directive"
+          ],
+          "options": {
+            "jestConfig": "libs/directive/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/directive/src/**/*.ts",
+              "libs/directive/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "extendz": {
       "projectType": "application",
       "root": "apps/extendz",
       "sourceRoot": "apps/extendz/src",
-      "prefix": "extendz",
+      "prefix": "ext",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/extendz",
             "index": "apps/extendz/src/index.html",
@@ -21,7 +171,9 @@
               "apps/extendz/src/favicon.ico",
               "apps/extendz/src/assets"
             ],
-            "styles": ["apps/extendz/src/styles.scss"],
+            "styles": [
+              "apps/extendz/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -67,7 +219,10 @@
               "browserTarget": "extendz:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/extendz/proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -86,7 +241,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/extendz"],
+          "outputs": [
+            "coverage/apps/extendz"
+          ],
           "options": {
             "jestConfig": "apps/extendz/jest.config.js",
             "passWithNoTests": true
@@ -115,7 +272,144 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/extendz-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/extendz-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "pipe": {
+      "projectType": "library",
+      "root": "libs/pipe",
+      "sourceRoot": "libs/pipe/src",
+      "prefix": "extendz",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/pipe"
+          ],
+          "options": {
+            "project": "libs/pipe/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/pipe/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/pipe/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/pipe"
+          ],
+          "options": {
+            "jestConfig": "libs/pipe/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/pipe/src/**/*.ts",
+              "libs/pipe/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "service": {
+      "projectType": "library",
+      "root": "libs/service",
+      "sourceRoot": "libs/service/src",
+      "prefix": "extendz",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/service"
+          ],
+          "options": {
+            "project": "libs/service/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/service/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/service/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/service"
+          ],
+          "options": {
+            "jestConfig": "libs/service/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/service/src/**/*.ts",
+              "libs/service/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ui": {
+      "projectType": "library",
+      "root": "libs/ui",
+      "sourceRoot": "libs/ui/src",
+      "prefix": "ext",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/ui"
+          ],
+          "options": {
+            "project": "libs/ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/ui"
+          ],
+          "options": {
+            "jestConfig": "libs/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui/src/**/*.ts",
+              "libs/ui/src/**/*.html"
+            ]
           }
         }
       }

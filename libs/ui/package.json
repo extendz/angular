@@ -1,0 +1,15 @@
+{
+  "name": "@extendz/ui",
+  "version": "12.0.0",
+  "peerDependencies": {
+    "@angular/common": "^12.1.1",
+    "@angular/core": "^12.1.1",
+    "@extendz/core": "12.0.0",
+    "@extendz/service": "12.0.0",
+    "@extendz/pipe": "12.0.0",
+    "@extendz/directive": "12.0.0"    
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  }
+}

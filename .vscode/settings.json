@@ -1,0 +1,26 @@
+{
+    "files.exclude": {
+        "!package.json": true,
+        ".editorconfig": true,
+        ".eslintrc.json": true,
+        ".gitignore": true,
+        ".prettierignore": true,
+        ".prettierrc": true,
+        ".vscode": true,
+        "**/.browserslistrc": true,
+        "**/*.js": true,
+        "angular.json": true,
+        "apps/extedz/src/main.ts": true,
+        "apps/extedz/src/polyfills.ts": true,
+        "apps/extendz/src/favicon.ico": true,
+        "decorate-angular-cli.js": true,
+        "jest.config.js": true,
+        "jest.preset.js": true,
+        "node_modules": true,
+        "nx.json": true,
+        "package-lock.json": true,
+        "tools": true,
+        "tsconfig.base.json": true
+    },
+    "editor.formatOnSave": true
+}

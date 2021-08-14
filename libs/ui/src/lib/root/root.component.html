@@ -1,0 +1,78 @@
+<div
+  *ngIf="models$ | async as m"
+  fxLayout="row wrap"
+  fxLayout.xs="column"
+  fxLayoutAlign="space-evenly center"
+  fxLayoutAlign.xs="center stretch"
+>
+  <!-- <mat-toolbar>
+    <span fxFlex></span>
+    <mat-slide-toggle>Edit</mat-slide-toggle>
+  </mat-toolbar> -->
+  <mat-card
+    extMaterialElevation
+    fxFlex="24"
+    class="card scale-in-center"
+    *ngFor="let item of m | keyvalue"
+  >
+    <div
+      matRipple="off"
+      (click)="onSelect(item.value)"
+      fxLayoutAlign="center center"
+      mat-card-image
+      [style.background]="item.value?.backgroundColor || '#FFC107'"
+    >
+      <mat-icon class="icon" [style.color]="item.value.color">
+        <svg viewBox="0 0 24 24"><path [attr.d]="item.value.icon.data" /></svg>
+      </mat-icon>
+    </div>
+
+    <mat-card-content>
+      <mat-card-title>{{ item.value?.label! | camelCase }}</mat-card-title>
+      <mat-card-subtitle>{{ item.value?.url }}</mat-card-subtitle>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="onField(item.value)">Fields</button>
+      <span fxFlex></span>
+      <button mat-button [matMenuTriggerFor]="menu">More</button>
+    </mat-card-actions>
+    <!-- <mat-card-footer></mat-card-footer> -->
+  </mat-card>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>Projections</button>
+  <button mat-menu-item [matMenuTriggerFor]="configurations">
+    Configurations
+  </button>
+</mat-menu>
+
+<mat-menu #configurations="matMenu">
+  <button mat-menu-item (click)="onDataTableConfig()">Data Table</button>
+  <button mat-menu-item>Entity</button>
+</mat-menu>
+
+<button mat-button>
+  <button
+    mat-fab
+    id="btnSave"
+    matTooltip="Add"
+    type="submit"
+    class="bottom-right"
+    (click)="onAdd()"
+  >
+    <mat-icon>
+      <svg viewBox="0 0 24 24">
+        <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+      </svg>
+    </mat-icon>
+  </button>
+</button>
+
+<ng-template #loading>
+  <div fxLayout="column" class="full-height">
+    <span fxFlex fxLayout="row" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </span>
+  </div>
+</ng-template>

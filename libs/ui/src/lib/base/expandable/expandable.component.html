@@ -1,0 +1,47 @@
+<mat-expansion-panel hideToggle expanded>
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ control?.metadata?.label }} </mat-panel-title>
+  </mat-expansion-panel-header>
+  <form [formGroup]="formGroup">
+    <span fxLayout="row wrap" fxLayoutAlign.gt-md="space-between center">
+      <span
+        *ngFor="let f of fields"
+        [ngSwitch]="f.type"
+        [fxFlex.xs]="f.width?.xs || 100"
+        [fxFlex.sm]="f.width?.sm || 48"
+        [fxFlex.md]="f.width?.sm || 32"
+        [fxFlex.lg]="f.width?.lg || 24"
+      >
+        <ng-template ngSwitchCase="checkbox">
+          <ext-checkbox [control]="formGroup | formControl: f"> </ext-checkbox>
+        </ng-template>
+
+        <!-- 
+  
+        <ng-template ngSwitchCase="string">
+          <ext-input-text [fieldMetaData]="f" [control]="getControl(f.id)">
+          </ext-input-text>
+        </ng-template>
+  
+        <ng-template ngSwitchCase="embedded-object">
+          <ext-embedded-object [fieldMetaData]="f" [control]="getControl(f.id)">
+          </ext-embedded-object>
+        </ng-template>
+  
+        <ng-template ngSwitchCase="color">
+          <ext-color-picker [fieldMetaData]="f" [control]="getControl(f.id)">
+          </ext-color-picker>
+        </ng-template>
+  
+        <ng-template ngSwitchCase="icon">
+          <ext-svg-icon [fieldMetaData]="f" [control]="getControl(f.id)">
+          </ext-svg-icon>
+        </ng-template>
+  
+        <ng-template ngSwitchCase="enum">
+          <ext-enum [fieldMetaData]="f" [control]="getControl(f.id)"></ext-enum>
+        </ng-template> -->
+      </span>
+    </span>
+  </form>
+</mat-expansion-panel>

@@ -1,0 +1,56 @@
+{
+  "name": "address",
+  "title": "line1",
+  "fields": [
+    {
+      "id": "text",
+      "label": "Text",
+      "type": "string"
+    },
+    {
+      "id": "number",
+      "label": "Number",
+      "type": "number"
+    },
+    {
+      "id": "enum",
+      "label": "Enum",
+      "type": "enum"
+    },
+    {
+      "id": "checkbox",
+      "label": "Checkbox",
+      "type": "checkbox"
+    },
+    {
+      "id": "boolean",
+      "label": "Boolean",
+      "type": "boolean"
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "type": "color"
+    },
+    {
+      "id": "reference",
+      "label": "Reference",
+      "type": "reference"
+    },
+    {
+      "id": "referenceList",
+      "label": "Reference List",
+      "type": "referenceList"
+    },
+    {
+      "id": "embedded",
+      "label": "Embedded Object",
+      "type": "embedded"
+    },
+    {
+      "id": "embeddedList",
+      "label": "Embedded List",
+      "type": "embeddedList"
+    }
+  ]
+}

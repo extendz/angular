@@ -14,7 +14,13 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@extendz/core": ["libs/core/src/index.ts"],
+      "@extendz/directive": ["libs/directive/src/index.ts"],
+      "@extendz/pipe": ["libs/pipe/src/index.ts"],
+      "@extendz/service": ["libs/service/src/index.ts"],
+      "@extendz/ui": ["libs/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

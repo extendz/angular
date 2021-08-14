@@ -27,12 +27,30 @@
     ]
   },
   "projects": {
+    "api": {
+      "tags": []
+    },
+    "core": {
+      "tags": []
+    },
+    "directive": {
+      "tags": []
+    },
     "extendz": {
       "tags": []
     },
     "extendz-e2e": {
       "tags": [],
       "implicitDependencies": ["extendz"]
+    },
+    "pipe": {
+      "tags": []
+    },
+    "service": {
+      "tags": []
+    },
+    "ui": {
+      "tags": []
     }
   }
 }

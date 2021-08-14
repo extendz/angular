@@ -1,0 +1,186 @@
+{
+  "title": "dispatchDate",
+  "name": "deliveryOrder",
+  "config": {
+    "entity": {
+      "enableProjection": true,
+      "projection": "entity",
+      "toolbar": {
+        "status": {
+          "text": "status",
+          "progress": "progress"
+        },
+        "actions": [
+          {
+            "id": "startDelivery",
+            "displayName": "Start Delivery",
+            "hide": {
+              "property": "status",
+              "assert": "NotEqual",
+              "value": "Planned"
+            }
+          },
+          {
+            "id": "completeDelivery",
+            "displayName": "Complete",
+            "hide": {
+              "property": "status",
+              "assert": "NotEqual",
+              "value": "OnRoute"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "projections": {
+    "dataTable": [
+      { "name": "dispatchDate", "type": "date" },
+      { "name": "status", "type": "string" }
+    ]
+  },
+  "properties": {
+    "dispatchDate": {
+      "name": "dispatchDate",
+      "type": "date",
+      "default": "",
+      "required": true,
+      "width": { "lg": 30 }
+    },
+    "vehicle": {
+      "name": "vehicle",
+      "type": "object",
+      "required": true,
+      "reference": "deliveryVehicle",
+      "config": {
+        "select": { "search": { "show": true } }
+      },
+      "width": { "lg": 30 }
+    },
+    "note": { "name": "note", "type": "string", "width": { "lg": 30 } },
+    "progress": { "name": "progress", "type": "progress", "width": { "lg": 1 } },
+    "status": {
+      "name": "status",
+      "type": "none",
+      "default": "Planned",
+      "enums": ["Planned", "OnRoute", "Closed"],
+      "width": { "lg": 30 }
+    },
+    "_tabs": {
+      "type": "tabs",
+      "width": { "lg": 100 },
+
+      "tabs": [
+        {
+          "name": "orderLines",
+          "displayName": "Delivery Lines",
+          "type": "objectList",
+          "reference": "deliveryOrderLine",
+          "mutations": {
+            "salesOrderLine": [
+              {
+                "type": "update",
+                "from": "reservedQuantity",
+                "to": ["reservedQuantity"]
+              },
+              {
+                "type": "update",
+                "from": "salesOrder",
+                "to": ["salesOrder"]
+              },
+              {
+                "type": "update",
+                "from": ".",
+                "to": ["salesOrderLine"]
+              },
+              {
+                "type": "update",
+                "from": "product",
+                "to": ["product"]
+              }
+            ]
+          },
+          "entityMeta": {
+            "config": {
+              "toolbar": {
+                "enabled": true,
+                "fab": {
+                  "id": "__add__",
+                  "reference": "salesOrderLine",
+                  "multiSelect": true,
+                  "params": {
+                    "reservedQuantity": 0,
+                    "projection": "dataTable"
+                  },
+                  "color": "accent",
+                  "icon": "add"
+                }
+              }
+            },
+            "properties": {
+              "lineNumber": {
+                "name": "lineNumber",
+                "type": "index",
+                "width": { "lg": "10" }
+              },
+              "salesOrder": {
+                "name": "salesOrder",
+                "displayName": "Sales Order",
+                "type": "display",
+                "width": { "lg": "10" }
+              },
+              "salesOrderLine": {
+                "name": "salesOrderLine",
+                "displayName": "Sales Order Line",
+                "type": "display",
+                "displayField": "lineNumber",
+                "width": { "lg": "15" }
+              },
+              "product": {
+                "name": "product",
+                "displayName": "Product",
+                "type": "display",
+                "width": { "lg": "40" }
+              },
+              "reservedQuantity": {
+                "name": "reservedQuantity",
+                "displayName": "Reserved Quantity",
+                "type": "display",
+                "width": { "lg": "12" }
+              },
+              "quantity": {
+                "name": "quantity",
+                "displayName": "Delivery Quantity",
+                "type": "number",
+                "required": true,
+                "width": { "lg": "15" }
+              },
+              "delete": {
+                "name": "delete",
+                "type": "action",
+                "actions": [{ "operation": "delete" }],
+                "icon": "delete",
+                "width": { "lg": "4" },
+                "hide": {
+                  "property": "_links",
+                  "assert": "Null"
+                }
+              },
+              "remove": {
+                "name": "remove",
+                "type": "action",
+                "actions": [{ "operation": "remove" }],
+                "icon": "close",
+                "width": { "lg": "4" },
+                "hide": {
+                  "property": "_links",
+                  "assert": "NotNull"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

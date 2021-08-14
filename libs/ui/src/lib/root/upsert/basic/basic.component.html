@@ -1,0 +1,40 @@
+<!-- <form [formGroup]="formGroup">
+  <span>
+    <mat-form-field fxFlex>
+      <mat-label>ID</mat-label>
+      <input autocomplete="off" autofocus matInput formControlName="id" />
+    </mat-form-field>
+    <span fxFlex="2"></span>
+    <mat-form-field fxFlex>
+      <mat-label>Label</mat-label>
+      <input autocomplete="off" matInput formControlName="label" />
+    </mat-form-field>
+  </span>
+  <mat-form-field style="width: 100%">
+    <mat-label>URL</mat-label>
+    <input autocomplete="off" matInput formControlName="url" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <ext-color-picker #c formControlName="color"></ext-color-picker>
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="$event.preventDefault(); c.openPopOver()"
+    >
+      <mat-icon>palette</mat-icon>
+    </button>
+  </mat-form-field>
+  <ext-svg-icon></ext-svg-icon>
+
+  <div>
+    <mat-checkbox>Cache Model</mat-checkbox>
+    <span fxFlex="2"></span>
+    <mat-checkbox>Cache Network</mat-checkbox>
+  </div>
+</form> -->
+
+<ext-basic-form
+  [formMetadata]="formMetadata"
+  (form)="fromGroup = $event; form.emit($event)"
+></ext-basic-form>

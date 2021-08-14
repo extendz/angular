@@ -1,0 +1,35 @@
+{
+  "address": {
+    "label": "Address",
+    "url": "addresses",
+    "backgroundColor": "#9C27B0"
+  },
+  "category": {
+    "label": "Category",
+    "url": "categories",
+    "backgroundColor": "#00BCD4"
+  },
+  "country": {
+    "label": "Country",
+    "url": "countries",
+    "backgroundColor": "#8BC34A"
+  },
+  "currency": {
+    "label": "Currency",
+    "url": "currencies",
+    "backgroundColor": "#03A9F4",
+    "cache": {
+      "model": true,
+      "network": true
+    }
+  },
+  "product": {
+    "label": "Products",
+    "url": "products"
+  },
+  "unitOfMeasure": {
+    "label": "Unit Of Measure",
+    "url": "unitOfMeasures",
+    "backgroundColor": "#009688"
+  }
+}
