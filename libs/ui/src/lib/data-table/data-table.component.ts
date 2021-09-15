@@ -1,79 +1,177 @@
-import { Component, Input, OnInit } from '@angular/core';
 import {
-  AbstractControl,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
+  NgControl,
 } from '@angular/forms';
-import { FieldMetadata, FormMetadata } from '@extendz/core';
-import { BehaviorSubject } from 'rxjs';
+import { MatTable } from '@angular/material/table';
+import {
+  Action,
+  createFormControl,
+  createFormGroup,
+  DataTableFieldMetadata,
+  ExtFormControl,
+  ExtFormGroup,
+  FieldMetadata,
+  FormMetadata,
+  InternalAction,
+} from '@extendz/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'ext-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
 })
-export class DataTableComponent implements OnInit {
-  @Input() formMetadata!: FormMetadata;
-  @Input() data?: Record<string, unknown>[];
+export class ExtDataTableComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
+  @Input() data!: Record<string, unknown>[];
 
-  rows: FormArray = this.fb.array([]);
-  formGroup!: FormGroup;
-  arrayName!: string;
+  @ViewChild(MatTable, { static: true }) table!: MatTable<any>;
+
+  rows = new FormArray([]);
+
+  showToolbar = true;
+  showPaginator = true;
+  actions?: Action[];
 
   fieldMetadata: FieldMetadata[] = [];
   displayedColumns: string[] = [];
-  dataSource = new BehaviorSubject<AbstractControl[]>([]);
+  formMetadata!: FormMetadata;
+  dataSource: any[] = [];
 
-  constructor(private fb: FormBuilder) {}
+  formGroup!: ExtFormGroup;
+
+  metadata!: DataTableFieldMetadata;
+
+  private onTouched!: () => void;
+  private onChange!: (record: any) => any;
+
+  private subscription?: Subscription;
+
+  constructor(public ngControl: NgControl) {
+    ngControl.valueAccessor = this;
+  }
 
   ngOnInit(): void {
-    const group: Record<string, FormArray> = {};
-    this.arrayName = (this.formMetadata.arrayName as string) || 'data';
-    group[this.arrayName] = this.rows;
-    this.formGroup = this.fb.group(group);
-    this.fieldMetadata = this.formMetadata.fields;
+    const temp = (this.ngControl.control as ExtFormControl).metadata;
+    this.metadata = temp as DataTableFieldMetadata;
+    this.formGroup = new FormGroup({ data: this.rows });
+    this.showToolbar = this.metadata?.showToolbar as boolean;
+    this.showPaginator = this.metadata?.showPaginator as boolean;
+    this.actions = this.metadata?.formMetadata.actions;
+    this.formMetadata = this.metadata.formMetadata;
+    this.fieldMetadata = this.formMetadata.fieldMetadata;
     this.displayedColumns = this.fieldMetadata.map((f) => f.id);
-
-    this.data?.forEach((d) => this.addRow(d));
-    this.updateView();
-
-    // this.formGroup.valueChanges.subscribe((d) => {
-    //   const formArray = this.formGroup.get(
-    //     this.formMetadata.arrayName as string
-    //   ) as FormArray;
-    //   formArray.controls.forEach((c) => {
-    //     const fg = c as FormGroup;
-    //   });
-    // });
+    if (this.data) this.data.forEach((d) => this.addRow(d));
   }
 
-  onAdd() {
-    this.addRow();
-    this.updateView();
-    console.log(this.formGroup);
-    // this.displayedColumns.push('save');
-    console.log(this.displayedColumns);
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
-  addRow(record?: Record<string, unknown>, noUpdate?: boolean) {
-    const row = this.fb.group({});
+  onAction(action: Action, index?: number) {
+    this.onChange(['add']);
+    switch (action.id) {
+      case '__add__':
+        this.addRow();
+        break;
+      case '__remove__':
+        if (index != undefined) this.removeAt(index);
+        break;
+    }
+  }
 
-    this.formMetadata.fields.forEach((fm) => {
-      const value = record?.[fm.id];
-      const validators = fm.validators || [];
-      const ctrl = new FormControl(
-        value != undefined ? value : fm.default,
-        validators
-      );
-      // if (fm.validators != undefined) ctrl.setValidators(fm.validators);
-      row.addControl(fm.id, ctrl);
+  removeAt(index: number) {
+    this.rows.removeAt(index);
+    this.dataSource.splice(index, 1);
+    this.table.renderRows();
+  }
+
+  addRow(record?: Record<string, unknown>) {
+    const row = createFormGroup(this.formMetadata);
+    // const row = new FormGroup({});
+
+    this.formMetadata.fieldMetadata.forEach((fieldMetada) => {
+      fieldMetada.floatLabel = 'never';
+      const ctrl = createFormControl(fieldMetada, record);
+      // const ctrl = new FormControl();
+      row.addControl(fieldMetada.id, ctrl);
     });
+
+    const mutations = this.formMetadata.mutations;
+    // if (mutations != undefined) {
+    //   row.valueChanges.subscribe((d) => {
+    //     mutations.forEach((mutation) => {
+    //       const fieldName = mutation.on.id;
+    //       const value = d[fieldName];
+    //       switch (mutation.assert) {
+    //         case Assert.EQUAL:
+    //           if (value == mutation.value)
+    //             mutation.actions?.forEach((a) => this.executeAction(a, row));
+    //           break;
+    //       }
+    //     });
+    //   });
+    // }
     this.rows.push(row);
+    this.dataSource.push(record);
+
+    setTimeout(() => {
+      this.table.renderRows();
+    }, 0);
+    // this.onChange(this.rows.value);
   }
 
-  updateView() {
-    this.dataSource.next(this.rows.controls);
+  executeAction(action: Action, row: FormGroup) {
+    if (action.type == 'internal') {
+      const internalAction = action as InternalAction;
+      switch (action.id) {
+        case '__clear__':
+          {
+            const fieldId = internalAction.on?.id as string;
+            row.controls[fieldId].reset(undefined, { emitEvent: false });
+          }
+          break;
+        case '__disable__':
+          {
+            const fieldId = internalAction.on?.id as string;
+            row.controls[fieldId].disable({ emitEvent: false });
+          }
+          break;
+        case '__enable__':
+          {
+            const fieldId = internalAction.on?.id as string;
+            row.controls[fieldId].enable({ emitEvent: false });
+          }
+          break;
+      }
+    } else {
+      console.log();
+    }
+  }
+
+  writeValue(obj: any): void {
+    console.log('Write some values');
+    // throw new Error('Method not implemented.');
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 }

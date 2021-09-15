@@ -1,19 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { FieldMetadata } from '@extendz/core';
-import { BaseInputComponent } from '../base.component';
+import { AfterContentInit, Component, Input } from '@angular/core';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ExtFormControl, FieldMetadata } from '@extendz/core';
 
 @Component({
   selector: 'ext-input-text',
   templateUrl: './input-text.component.html',
   styleUrls: ['./input-text.component.scss'],
 })
-export class InputTextComponent extends BaseInputComponent implements OnInit {
-  fieldMetaData?: FieldMetadata;
-  constructor() {
-    super();
+export class InputTextComponent
+  implements AfterContentInit, ControlValueAccessor
+{
+  control: FormControl = new FormControl();
+  fieldMetadata?: FieldMetadata;
+
+  private onChange!: (record: string) => string;
+
+  constructor(public ngControl: NgControl) {
+    ngControl.valueAccessor = this;
   }
 
-  ngOnInit(): void {
-    this.fieldMetaData = this.control.metadata;
+  ngAfterContentInit(): void {
+    this.fieldMetadata = (this.ngControl.control as ExtFormControl).metadata;
+    this.control.valueChanges.subscribe((v) => {
+      this.onChange(v);
+    });
   }
+
+  writeValue(value: string): void {
+    this.control.setValue(value);
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {}
 }

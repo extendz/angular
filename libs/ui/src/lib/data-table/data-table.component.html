@@ -1,8 +1,26 @@
-<form [formGroup]="formGroup">
+<mat-toolbar
+  *ngIf="showToolbar"
+  fxLayoutAlign="start center"
+  style="background-color: white"
+>
+  <span>{{ metadata?.label }}</span>
+  <span fxFlex></span>
+  <button
+    *ngFor="let action of actions"
+    mat-icon-button
+    (click)="onAction(action)"
+  >
+    <mat-icon>{{ action?.icon }}</mat-icon>
+  </button>
+</mat-toolbar>
+<!-- {{ formGroup.value | json }} -->
+<form [formGroup]="formGroup" autocomplete="off">
+  <!--  -->
   <table
+    class="mat-elevation-z0"
     mat-table
     [dataSource]="dataSource"
-    [formArrayName]="formMetadata?.arrayName!"
+    formArrayName="data"
   >
     <ng-container *ngFor="let field of fieldMetadata" [matColumnDef]="field.id">
       <th mat-header-cell *matHeaderCellDef>{{ field.label }}</th>
@@ -14,49 +32,49 @@
       >
         <span [ngSwitch]="field.type">
           <ng-template ngSwitchCase="boolean">
-            <ext-checkbox
-              [control]="formGroup | formControl: field:index:arrayName"
-            >
-            </ext-checkbox>
-          </ng-template>
-          <!-- 
-          <ng-template ngSwitchCase="string">
-            <ext-input-text
-              [fieldMetaData]="field"
-              [control]="getControl(field.id, index)"
-            >
-            </ext-input-text>
+            <ext-checkbox [formControlName]="field.id"> </ext-checkbox>
           </ng-template>
 
-          <ng-template ngSwitchCase="embedded-object">
+          <ng-template ngSwitchCase="enum">
+            <ext-enum [formControlName]="field.id"></ext-enum>
+          </ng-template>
+
+          <ng-template ngSwitchCase="string">
+            <ext-input-text [formControlName]="field.id"> </ext-input-text>
+          </ng-template>
+
+          <!-- <ng-template ngSwitchCase="embedded-object">
             <ext-embedded-object
-              [fieldMetaData]="field"
-              [control]="getControl(field.id, index)"
+              [control]="formGroup | formControl: field:index:arrayName"
             >
             </ext-embedded-object>
           </ng-template>
 
-          <ng-template ngSwitchCase="color">
+          <ng-template ngSwitchCase="embedded-object-list">
+            <ext-embedded-object-list
+              [control]="formGroup | formControl: field:index:arrayName"
+            >
+            </ext-embedded-object-list>
+          </ng-template>
+
+          <ng-template ngSwitchCase="action">
+            <button mat-icon-button (click)="onAction(field.action!, index)">
+              <mat-icon>{{ field?.icon }}</mat-icon>
+            </button>
+          </ng-template>
+          <ng-template ngSwitchCase="icon">
+            <ext-svg-icon
+              [control]="formGroup | formControl: field:index:arrayName"
+            >
+            </ext-svg-icon>
+          </ng-template>
+         -->
+          <!-- <ng-template ngSwitchCase="color">
             <ext-color-picker
               [fieldMetaData]="field"
               [control]="getControl(field.id, index)"
             >
             </ext-color-picker>
-          </ng-template>
-
-          <ng-template ngSwitchCase="icon">
-            <ext-svg-icon
-              [fieldMetaData]="field"
-              [control]="getControl(field.id, index)"
-            >
-            </ext-svg-icon>
-          </ng-template>
-
-          <ng-template ngSwitchCase="enum">
-            <ext-enum
-              [fieldMetaData]="field"
-              [control]="getControl(field.id, index)"
-            ></ext-enum>
           </ng-template> -->
         </span>
       </td>
@@ -75,14 +93,11 @@
       *matRowDef="let row; let i = index; columns: displayedColumns"
     ></tr>
   </table>
-
-  <div fxLayoutAlign="start center">
-    <!-- <button mat-stroked-button (click)="onAdd()">Add</button>
-    <span fxFlex="2"></span>
-    <button mat-stroked-button>Save</button> -->
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-    </mat-paginator>
-    <span fxFlex></span>
-  </div>
 </form>
+
+<mat-paginator
+  *ngIf="showPaginator"
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+>
+</mat-paginator>

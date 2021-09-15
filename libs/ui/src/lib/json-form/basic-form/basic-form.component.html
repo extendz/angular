@@ -1,20 +1,20 @@
 <form [formGroup]="formGroup">
   <span fxLayout="row wrap" fxLayoutAlign.gt-md="space-between center">
     <span
-      *ngFor="let f of formMetadata.fields"
+      *ngFor="let f of formMetadata.fieldMetadata"
       [ngSwitch]="f.type"
       [fxFlex.xs]="f.width?.xs || 100"
       [fxFlex.sm]="f.width?.sm || 48"
       [fxFlex.md]="f.width?.sm || 32"
       [fxFlex.lg]="f.width?.lg || 24"
     >
-      <ng-template ngSwitchCase="string">
+      <!-- <ng-template ngSwitchCase="string">
         <ext-input-text [control]="formGroup | formControl: f">
         </ext-input-text>
-      </ng-template>
+      </ng-template> -->
 
       <ng-template ngSwitchCase="expandable">
-        <ext-expandable [control]="formGroup | formControl: f">
+        <ext-expandable [formControlName]="f.id" [metadata]="f">
         </ext-expandable>
       </ng-template>
 
@@ -24,9 +24,6 @@
       </ng-template> -->
 
       <!-- 
-
-     
-
       <ng-template ngSwitchCase="embedded-object">
         <ext-embedded-object [fieldMetaData]="f" [control]="getControl(f.id)">
         </ext-embedded-object>

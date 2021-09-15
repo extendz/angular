@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { createFormControl, ExtFormControl, FormMetadata } from '@extendz/core';
+import { createFormControl, FormMetadata } from '@extendz/core';
 
 @Component({
   selector: 'ext-basic-form',
@@ -25,13 +25,11 @@ export class BasicFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.form.emit(this.formGroup);
-    }, 100);
+    setTimeout(() => this.form.emit(this.formGroup), 100);
   }
 
   ngOnInit(): void {
-    this.formMetadata?.fields?.forEach((fm) => {
+    this.formMetadata?.fieldMetadata?.forEach((fm) => {
       this.formGroup.addControl(fm.id, createFormControl(fm));
     });
   }

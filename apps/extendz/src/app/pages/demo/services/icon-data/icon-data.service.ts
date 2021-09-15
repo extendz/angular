@@ -13,8 +13,6 @@ export class IconDataService implements AbstractIconDataService {
   constructor(private http: HttpClient, private matSnackBar: MatSnackBar) {}
 
   getAll(searchText?: string): Observable<Icon[]> {
-    console.log(searchText);
-
     let params = new HttpParams();
     params = params.append('name', searchText as string);
     return this.http.get<HateosPagedResponse>('/api/icons', { params }).pipe(

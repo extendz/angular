@@ -1,9 +1,16 @@
+form {
+  width: 100%;
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
 }
+
 mat-form-field {
   width: 95%;
 }
+
 mat-paginator {
   background-color: transparent;
 }

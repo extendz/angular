@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EntityMetadata, FieldMetadata, FormMetadata } from '@extendz/core';
+import {
+  createFormControl,
+  DataTableFieldMetadata,
+  EntityMetadata,
+  ExtFormControl,
+  FieldMetadata,
+} from '@extendz/core';
 
 @Component({
   selector: 'extendz-data-table',
@@ -10,17 +16,23 @@ import { EntityMetadata, FieldMetadata, FormMetadata } from '@extendz/core';
 export class DataTableComponent implements OnInit {
   private entityMetadata!: EntityMetadata;
 
-  formMetadata!: FormMetadata;
+  metadata!: DataTableFieldMetadata;
+  formControl!: ExtFormControl;
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.activatedRoute.data.subscribe((d) => {
       this.entityMetadata = d.resolved.entityMetadata;
-      const fields = this.entityMetadata.fields as FieldMetadata[];
-      this.formMetadata = { fields };
     });
   }
 
   ngOnInit(): void {
-    console.log();
+    const fieldMetadata = this.entityMetadata.fields as FieldMetadata[];
+    const formMetadata = { fieldMetadata };
+    this.metadata = {
+      ...this.entityMetadata,
+      ...{ formMetadata },
+      showToolbar: true,
+    };
+    this.formControl = createFormControl(this.metadata);
   }
 }

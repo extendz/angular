@@ -6,6 +6,7 @@ import {
   EntityMetadata,
   EntityMetadataResponse,
   FieldMetadata,
+  HateosPagedResponse,
 } from '@extendz/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, take, tap } from 'rxjs/operators';
@@ -30,9 +31,15 @@ export class EntityMetadataService implements AbstractEntityMetadataService {
 
   getAll(): Observable<EntityMetadataResponse> {
     if (this.entityMetaResponse) return of(this.entityMetaResponse);
-    return this.http.get<EntityMetadataResponse>(this.url).pipe(
+    return this.http.get<HateosPagedResponse>(this.url).pipe(
       take(1),
-      tap((res) => (this.entityMetaResponse = res))
+      // tap((res) => (this.entityMetaResponse = res)),
+      map((res) => {
+        const all = res._embedded.extendzes as EntityMetadata[];
+        const x: EntityMetadataResponse = {};
+        all.forEach((i) => (x[i.id] = i));
+        return x;
+      })
     );
   }
 

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormControlPipe } from './form-control';
+import { FormArrayPipe, FormControlPipe, FormGroupPipe } from './form-control';
 
-const declarations = [FormControlPipe];
+const declarations = [FormControlPipe, FormGroupPipe, FormArrayPipe];
 
 @NgModule({
   declarations,

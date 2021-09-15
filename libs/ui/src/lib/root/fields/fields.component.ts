@@ -1,15 +1,28 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EnumFieldMetadata, FieldMetadata, FormMetadata } from '@extendz/core';
+import {
+  createFormControl,
+  DataTableFieldMetadata,
+  EnumFieldMetadata,
+  ExtFormControl,
+  FieldMetadata,
+  FormMetadata,
+} from '@extendz/core';
+import { ExtDataTableComponent } from '../../data-table/data-table.component';
 
 @Component({
   selector: 'ext-fields',
   templateUrl: './fields.component.html',
   styleUrls: ['./fields.component.css'],
 })
-export class FieldsComponent implements OnInit {
+export class FieldsComponent {
+  fieldMetadata: DataTableFieldMetadata;
   formMetadata: FormMetadata;
+
+  formControl!: ExtFormControl;
+
+  @ViewChild('table', { static: true }) table!: ExtDataTableComponent;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Record<string, unknown>[]) {
     const id: FieldMetadata = {
@@ -39,28 +52,40 @@ export class FieldsComponent implements OnInit {
       floatLabel: 'never',
       enums: [
         {
-          displayValue: 'String',
-          value: 'string',
-        },
-        {
-          displayValue: 'Checkbox',
-          value: 'checkbox',
-        },
-        {
-          displayValue: 'Enum',
-          value: 'enum',
-        },
-        {
-          displayValue: 'Number',
-          value: 'number',
-        },
-        {
-          displayValue: 'Boolean',
+          label: 'Boolean',
           value: 'boolean',
         },
         {
-          displayValue: 'Color',
+          label: 'Checkbox',
+          value: 'checkbox',
+        },
+        {
+          label: 'Color',
           value: 'color',
+        },
+        {
+          label: 'Enum',
+          value: 'enum',
+        },
+        {
+          label: 'I8ln',
+          value: 'i8ln',
+        },
+        {
+          label: 'Number',
+          value: 'number',
+        },
+        {
+          label: 'String',
+          value: 'string',
+        },
+        {
+          label: 'Reference',
+          value: 'reference',
+        },
+        {
+          label: 'Reference List',
+          value: 'referenceList',
         },
       ],
       placeholder: 'Field type',
@@ -78,10 +103,15 @@ export class FieldsComponent implements OnInit {
     };
 
     this.formMetadata = {
-      arrayName: 'properties',
-      fields: [id, label, type, rquired],
+      fieldMetadata: [id, label, type, rquired],
     };
-  }
 
-  ngOnInit(): void {}
+    this.fieldMetadata = {
+      id: 'fields',
+      showToolbar: false,
+      showPaginator: false,
+      formMetadata: this.formMetadata,
+    };
+    this.formControl = createFormControl(this.fieldMetadata);
+  }
 }

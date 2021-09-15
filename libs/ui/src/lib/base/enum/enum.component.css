@@ -2,3 +2,7 @@ mat-form-field {
   display: block;
   width: 95%;
 }
+.multiline-mat-option.mat-option {
+  white-space: normal;
+  line-height: normal;
+}

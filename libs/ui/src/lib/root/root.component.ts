@@ -32,8 +32,8 @@ export class RootComponent {
     this.models$ = this.entityMetadataService.getAll().pipe(
       take(1),
       tap((d) => {
-        // this.onField(d['address']);
-        this.onDataTableConfig();
+        this.onField(d['category']);
+        // this.onDataTableConfig();
       })
     );
   }
@@ -53,9 +53,7 @@ export class RootComponent {
         take(1),
         filter((d) => d !== undefined)
       )
-      .subscribe((d) => {
-        console.log(d);
-      });
+      .subscribe();
   }
 
   onEdit(event: MouseEvent) {
@@ -64,7 +62,8 @@ export class RootComponent {
 
   onDataTableConfig() {
     const ref = this.matDialog.open(ConfigDataTableComponent, {
-      width: '60%',
+      width: '99%',
+      height: 'auto',
     });
   }
 

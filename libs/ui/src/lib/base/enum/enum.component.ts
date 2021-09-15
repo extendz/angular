@@ -1,18 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EnumFieldMetadata } from '@extendz/core';
-import { BaseInputComponent } from '../base.component';
+import { AfterContentInit, Component } from '@angular/core';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { EnumFieldMetadata, ExtFormControl } from '@extendz/core';
 
 @Component({
   selector: 'ext-enum',
   templateUrl: './enum.component.html',
   styleUrls: ['./enum.component.css'],
 })
-export class EnumComponent extends BaseInputComponent implements OnInit {
-  @Input() fieldMetaData?: EnumFieldMetadata;
+export class EnumComponent implements AfterContentInit, ControlValueAccessor {
+  control: FormControl = new FormControl();
+  fieldMetadata?: EnumFieldMetadata;
 
-  constructor() {
-    super();
+  private onChange!: (record: string) => string;
+
+  constructor(public ngControl: NgControl) {
+    ngControl.valueAccessor = this;
   }
 
-  ngOnInit(): void {}
+  ngAfterContentInit(): void {
+    this.fieldMetadata = (this.ngControl.control as ExtFormControl).metadata;
+    this.control.valueChanges.subscribe((v) => {
+      console.log(v);
+      this.onChange(v);
+    });
+  }
+
+  writeValue(value: string): void {
+    this.control.setValue(value);
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {}
+
+  // ngOnInit(): void {
+  //   this.fieldMetaData = this.control.metadata;
+  // }
 }

@@ -1,4 +1,4 @@
 export interface Enum {
-  value: string;
-  displayValue: string;
+  value: string | null;
+  label: string;
 }

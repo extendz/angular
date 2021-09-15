@@ -23,7 +23,9 @@
       [style.background]="item.value?.backgroundColor || '#FFC107'"
     >
       <mat-icon class="icon" [style.color]="item.value.color">
-        <svg viewBox="0 0 24 24"><path [attr.d]="item.value.icon.data" /></svg>
+        <svg viewBox="0 0 24 24">
+          <path [attr.d]="item.value?.icon?.data" />
+        </svg>
       </mat-icon>
     </div>
 

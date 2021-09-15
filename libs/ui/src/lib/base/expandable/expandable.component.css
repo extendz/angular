@@ -1,4 +1,8 @@
 mat-expansion-panel {
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+ext-data-table {
+  margin-top: 5vh;
 }

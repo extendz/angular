@@ -1,7 +1,11 @@
-<mat-expansion-panel hideToggle expanded>
+<mat-expansion-panel hideToggle expanded [disabled]="enabled">
   <mat-expansion-panel-header>
-    <mat-panel-title>{{ control?.metadata?.label }} </mat-panel-title>
+    <mat-panel-title>{{ metadata?.label }} </mat-panel-title>
+    <!-- <mat-panel-description>
+      <mat-checkbox [checked]="enabled"> Enabled </mat-checkbox>
+    </mat-panel-description> -->
   </mat-expansion-panel-header>
+  <!-- {{ formGroup.value | json }} -->
   <form [formGroup]="formGroup">
     <span fxLayout="row wrap" fxLayoutAlign.gt-md="space-between center">
       <span
@@ -13,7 +17,11 @@
         [fxFlex.lg]="f.width?.lg || 24"
       >
         <ng-template ngSwitchCase="checkbox">
-          <ext-checkbox [control]="formGroup | formControl: f"> </ext-checkbox>
+          <ext-checkbox [formControlName]="f.id"> </ext-checkbox>
+        </ng-template>
+
+        <ng-template ngSwitchCase="embedded-object-list">
+          <ext-data-table [formControlName]="f.id"> </ext-data-table>
         </ng-template>
 
         <!-- 

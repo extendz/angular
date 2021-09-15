@@ -36,11 +36,11 @@ export class PropertiesComponent implements OnInit {
       label: 'Type',
       enums: [
         {
-          displayValue: 'String',
+          label: 'String',
           value: 'string',
         },
         {
-          displayValue: 'Checkbox',
+          label: 'Checkbox',
           value: 'checkbox',
         },
       ],
@@ -66,7 +66,7 @@ export class PropertiesComponent implements OnInit {
 
     this.formMetadata = {
       layoutAlign: { lg: 'space-between center' },
-      fields: [id, label, type, rquired],
+      fieldMetadata: [id, label, type, rquired],
     };
   }
 

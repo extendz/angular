@@ -14,9 +14,9 @@ const declarations = [CheckboxComponent];
   imports: [
     CommonModule,
     MatCheckboxModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    ReactiveFormsModule,
   ],
 })
 export class ExtCheckboxModule {}

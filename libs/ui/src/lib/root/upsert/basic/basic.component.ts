@@ -16,7 +16,7 @@ export class BasicComponent {
   constructor() {
     this.formMetadata = {
       layoutAlign: { lg: 'space-between center' },
-      fields: [
+      fieldMetadata: [
         {
           autocomplete: 'off',
           default: 'address',

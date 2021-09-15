@@ -1,0 +1,42 @@
+<!-- {{ formGroup.value | json }} -->
+<form [formGroup]="formGroup">
+  <span fxLayout="row wrap" fxLayoutAlign.gt-md="space-between center">
+    <span
+      *ngFor="let f of fields"
+      [ngSwitch]="f.type"
+      [fxFlex.xs]="f.width?.xs || 100"
+      [fxFlex.sm]="f.width?.sm || 48"
+      [fxFlex.md]="f.width?.sm || 32"
+      [fxFlex.lg]="f.width?.lg || 24"
+    >
+      <!-- <ng-template ngSwitchCase="string">
+        <ext-input-text [control]="formGroup | formControl: f">
+        </ext-input-text>
+      </ng-template> -->
+      <ng-template ngSwitchCase="enum">
+        <ext-enum [formControlName]="f.id"></ext-enum>
+      </ng-template>
+
+      <!-- <ng-template ngSwitchCase="boolean">
+            <ext-checkbox [fieldMetaData]="f" [control]="getControl(f.id)">
+            </ext-checkbox>
+          </ng-template>  -->
+
+      <!-- -->
+
+      <!-- 
+       
+        <ng-template ngSwitchCase="color">
+          <ext-color-picker [fieldMetaData]="f" [control]="getControl(f.id)">
+          </ext-color-picker>
+        </ng-template>
+  
+        <ng-template ngSwitchCase="icon">
+          <ext-svg-icon [fieldMetaData]="f" [control]="getControl(f.id)">
+          </ext-svg-icon>
+        </ng-template>
+  
+      -->
+    </span>
+  </span>
+</form>

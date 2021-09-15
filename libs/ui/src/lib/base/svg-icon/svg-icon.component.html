@@ -1,6 +1,13 @@
 <mat-form-field>
   <mat-label>{{ fieldMetaData?.label }}</mat-label>
-  <input matInput [matAutocomplete]="auto" [formControl]="control" />
+  <input
+    type="text"
+    matInput
+    autocomplete="off"
+    name="icon"
+    [matAutocomplete]="auto"
+    [formControl]="control"
+  />
 
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="getDisplayValue">
     <mat-option *ngFor="let icon of icons$ | async" [value]="icon">

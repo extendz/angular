@@ -1,6 +1,10 @@
 <h2 mat-dialog-title>Data Table configurations</h2>
 <mat-dialog-content>
-  <ext-basic-form [formMetadata]="formMetadata"></ext-basic-form>
+  <!-- {{ form?.value | json }} -->
+  <ext-basic-form
+    [formMetadata]="formMetadata"
+    (form)="form = $event"
+  ></ext-basic-form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <span fxFlex></span>
