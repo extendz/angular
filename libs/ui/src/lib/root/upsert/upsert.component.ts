@@ -4,8 +4,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import {
   AbstractEntityMetadataService,
-  EntityMetadata,
   EXT_ENTITY_METADATA_SERVICE,
+  FormMetadata,
 } from '@extendz/core';
 
 @Component({
@@ -21,7 +21,7 @@ export class UpsertComponent {
   constructor(
     @Inject(EXT_ENTITY_METADATA_SERVICE)
     private entityMetadataService: AbstractEntityMetadataService,
-    @Inject(MAT_DIALOG_DATA) public data: EntityMetadata
+    @Inject(MAT_DIALOG_DATA) public data: FormMetadata
   ) {}
 
   setBasicForm(form: FormGroup) {

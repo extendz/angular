@@ -6,8 +6,10 @@ export interface Action {
     | '__clear__'
     | '__delete__'
     | '__remove__'
+    | '__delete__'
     | '__hide__'
     | '__show__'
+    | '__save__'
     | '__disable__'
     | '__enable__'
     | string; // custom action

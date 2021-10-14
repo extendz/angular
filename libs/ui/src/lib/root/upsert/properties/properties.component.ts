@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EnumFieldMetadata, FieldMetadata, FormMetadata } from '@extendz/core';
@@ -9,7 +9,7 @@ import { EnumFieldMetadata, FieldMetadata, FormMetadata } from '@extendz/core';
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css'],
 })
-export class PropertiesComponent implements OnInit {
+export class PropertiesComponent {
   formMetadata: FormMetadata;
   fromGroup!: FormGroup;
   fieldNames?: string[];
@@ -65,12 +65,11 @@ export class PropertiesComponent implements OnInit {
     };
 
     this.formMetadata = {
+      id: 'properties',
       layoutAlign: { lg: 'space-between center' },
       fieldMetadata: [id, label, type, rquired],
     };
   }
-
-  ngOnInit(): void {}
 
   onField(field: FieldMetadata) {
     // this.currentFieldName = name;

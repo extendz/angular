@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SimpleFormModule } from '../../../json-form/simple-form/simple-form.module';
@@ -17,6 +18,7 @@ const declarations = [EmbeddedObjectUpsertComponent];
     MatButtonModule,
     MatDialogModule,
     SimpleFormModule,
+    ReactiveFormsModule,
   ],
 })
 export class EmbeddedObjectUpsertModule {}

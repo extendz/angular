@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
+
 import { Observable } from 'rxjs';
-import { EntityMetadata } from '../entity-meta/entity-metadata';
-import { EntityMetadataResponse } from '../entity-meta/entity-metadata-response';
+import { FormMetadata, FormMetadataResponse } from '../form';
 import { FieldMetadata } from '../form/field';
 
 export const EXT_ENTITY_METADATA_SERVICE = new InjectionToken(
@@ -9,9 +9,9 @@ export const EXT_ENTITY_METADATA_SERVICE = new InjectionToken(
 );
 
 export interface AbstractEntityMetadataService {
-  getAll(): Observable<EntityMetadataResponse>;
-  getOne(id: string): Observable<EntityMetadata>;
-  getFields(entityMetadata: EntityMetadata): Observable<FieldMetadata[]>;
+  getAll(): Observable<FormMetadataResponse>;
+  getOne(id: string): Observable<FormMetadata>;
+  getFields(entityMetadata: FormMetadata): Observable<FieldMetadata[]>;
   getFieldsById(id: string): Observable<FieldMetadata[]>;
-  save(entityMetadata: EntityMetadata): Observable<EntityMetadata>;
+  save(entityMetadata: FormMetadata): Observable<FormMetadata>;
 }

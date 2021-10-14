@@ -1,5 +1,9 @@
-import { EntityMetadata } from '@extendz/core';
+import { FormMetadata } from '@extendz/core';
 
 export interface DataTableResolverModel {
-  entityMetadata: EntityMetadata;
+  formMetadata: FormMetadata;
+}
+
+export interface FormResolverModel extends DataTableResolverModel {
+  record: unknown;
 }

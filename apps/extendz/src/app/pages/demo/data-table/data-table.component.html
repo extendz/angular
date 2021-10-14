@@ -1,1 +1,6 @@
-<ext-data-table [formControl]="formControl"></ext-data-table>
+<ext-data-table
+  [formControl]="formControl"
+  (action)="onAction($event)"
+  [event]="event"
+>
+</ext-data-table>

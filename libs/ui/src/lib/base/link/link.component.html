@@ -1,0 +1,19 @@
+<mat-form-field [floatLabel]="fieldMetadata?.floatLabel!">
+  <mat-label>{{ fieldMetadata?.label }}</mat-label>
+  <span matPrefix> </span>
+  <button mat-icon-button matPrefix (click)="onLink($event)">
+    <mat-icon>link</mat-icon>
+  </button>
+  <input
+    matInput
+    [name]="fieldMetadata?.label"
+    [autocomplete]="fieldMetadata?.autocomplete"
+    readonly
+    [placeholder]="fieldMetadata?.placeholder!"
+    [formControl]="control"
+  />
+  <mat-hint>{{ fieldMetadata?.hint }}</mat-hint>
+  <mat-error *ngIf="control?.hasError('required')">
+    {{ fieldMetadata?.label }} is <strong>required</strong>
+  </mat-error>
+</mat-form-field>

@@ -11,11 +11,11 @@ export class DataTableResolverService
   constructor(private entityMetadata: EntityMetadataService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<DataTableResolverModel> {
-    const id = route.paramMap.get('id');
+    const id = route.paramMap.get('model');
     if (id !== null)
       return this.entityMetadata.getOne(id).pipe(
-        map((entityMetadata) => {
-          const returnOb: DataTableResolverModel = { entityMetadata };
+        map((formMetadata) => {
+          const returnOb: DataTableResolverModel = { formMetadata };
           return returnOb;
         })
       );

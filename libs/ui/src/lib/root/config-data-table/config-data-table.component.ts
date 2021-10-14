@@ -150,6 +150,7 @@ export class ConfigDataTableComponent implements OnInit {
       label: 'Show conditions',
       type: 'embedded-object-list',
       formMetadata: {
+        id: 'showCondition',
         fieldMetadata: [
           conditionType,
           idShowCondition,
@@ -164,6 +165,7 @@ export class ConfigDataTableComponent implements OnInit {
       label: 'Show Condition',
       type: 'embedded-object',
       formMetadata: {
+        id: 'showCondition',
         mutations: [
           {
             on: { id: 'conditionType' },
@@ -211,7 +213,7 @@ export class ConfigDataTableComponent implements OnInit {
       type: 'embedded-object-list',
       width: { lg: '100' },
       formMetadata: {
-        arrayName: 'actions',
+        id: 'actions',
         mutations: [
           {
             on: {
@@ -321,6 +323,7 @@ export class ConfigDataTableComponent implements OnInit {
     };
 
     this.formMetadata = {
+      id: '',
       fieldMetadata: [projection, toolbarSection, paginationSection],
     };
   }

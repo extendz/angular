@@ -1,0 +1,19 @@
+mat-form-field {
+  width: 98%;
+}
+:host ::ng-deep .mat-form-field-underline {
+  display: none;
+}
+mat-basic-chip {
+  border-radius: 20%;
+  padding: 4px 8px;
+  cursor: default;
+}
+
+:host mat-icon {
+  display: none;
+}
+
+:host :hover mat-icon {
+  display: flex;
+}

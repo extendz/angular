@@ -1,0 +1,33 @@
+/* .image-wrapper {
+  height: 100vh;
+}
+
+
+
+.short-progress {
+  width: 50%;
+}
+
+*/
+
+.image-cropper {
+  height: 80vh;
+  margin: 0 auto;
+  width: auto;
+  background-color: green;
+}
+
+.actions {
+  /* height: 10vh; */
+  width: auto;
+}
+
+.mat-dialog-content {
+  max-height: initial !important;
+  /* height: calc(100% - 64px); */
+  /* height: 90%; */
+}
+
+.mat-dialog-container {
+  max-height: 90vh;
+}

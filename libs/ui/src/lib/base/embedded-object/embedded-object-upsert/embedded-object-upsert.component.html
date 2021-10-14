@@ -1,7 +1,11 @@
+<h2 mat-dialog-title>{{ metadata?.label }}</h2>
 <mat-dialog-content>
-  <ext-simple-form [formMetadata]="formMetadata"></ext-simple-form>
+  <ext-simple-form #form [formControl]="formControl"></ext-simple-form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <span fxFlex></span>
-  <button mat-raised-button color="primary" cdkFocusInitial>Ok</button>
+  <button mat-raised-button [mat-dialog-close]="undefined">Cacel</button>
+  <button mat-raised-button color="primary" (click)="onSave()" cdkFocusInitial>
+    Save
+  </button>
 </mat-dialog-actions>

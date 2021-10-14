@@ -7,6 +7,7 @@ import { ExtCheckboxModule } from '../../base/checkbox/checkbox.module';
 import { ExtColorPickerModule } from '../../base/color-picker/color-picker.module';
 import { ExtEnumModule } from '../../base/enum/enum.module';
 import { ExtInputTextModule } from '../../base/input-text/input-text.module';
+import { ExtMapModule } from '../../base/map/map.module';
 import { ExtSvgIconModule } from '../../base/svg-icon/svg-icon.module';
 import { SimpleFormComponent } from './simple-form.component';
 
@@ -24,6 +25,7 @@ const declarations = [SimpleFormComponent];
     ExtCheckboxModule,
     ExtEnumModule,
     FlexLayoutModule,
+    ExtMapModule,
     ReactiveFormsModule,
   ],
 })

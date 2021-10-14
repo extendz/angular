@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EntityMetadata, RootAction } from '@extendz/core';
+import { FormMetadata, RootAction } from '@extendz/core';
 
 @Component({
   selector: 'extendz-root',
@@ -19,8 +19,8 @@ export class RootComponent implements OnInit {
   onAction(action: RootAction) {
     switch (action.type) {
       case 'select': {
-        const pay = action.payload as EntityMetadata;
-        this.router.navigate(['data-table', pay.id]);
+        const pay = action.payload as FormMetadata;
+        this.router.navigate([pay.id]);
         break;
       }
       default:

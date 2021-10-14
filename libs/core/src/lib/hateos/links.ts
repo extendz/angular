@@ -2,7 +2,7 @@ import { Href } from './href';
 
 export interface Links {
   first?: Href;
-  self?: Href;
+  self: Href;
   next?: Href;
   last?: Href;
   profile?: Href;

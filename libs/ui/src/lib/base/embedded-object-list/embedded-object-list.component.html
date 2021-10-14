@@ -1,20 +1,21 @@
-<mat-form-field [floatLabel]="fieldMetaData?.floatLabel!">
-  <mat-label *ngIf="fieldMetaData?.placeholder">
-    {{ fieldMetaData?.label }}
+<mat-form-field [floatLabel]="metadata?.floatLabel!">
+  <mat-label *ngIf="metadata?.placeholder">
+    {{ metadata?.label }}
   </mat-label>
   <input
+    #input
     matInput
-    [name]="fieldMetaData?.label"
-    [autocomplete]="fieldMetaData?.autocomplete"
-    [readonly]="fieldMetaData?.readonly"
-    [placeholder]="fieldMetaData?.placeholder!"
+    [name]="metadata?.label"
+    [autocomplete]="metadata?.autocomplete"
+    [readonly]="metadata?.readOnly"
+    [placeholder]="metadata?.placeholder!"
     [formControl]="control"
   />
   <button mat-icon-button matSuffix (click)="onJson($event)">
     <mat-icon>code</mat-icon>
   </button>
-  <mat-hint>{{ fieldMetaData?.hint }}</mat-hint>
+  <mat-hint>{{ metadata?.hint }}</mat-hint>
   <mat-error *ngIf="control.hasError('required')">
-    {{ fieldMetaData?.label }} is <strong>required</strong>
+    {{ metadata?.label }} is <strong>required</strong>
   </mat-error>
 </mat-form-field>

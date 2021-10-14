@@ -1,0 +1,7 @@
+.upload-base {
+  background-blend-mode: multiply;
+  height: 48px;
+  width: 48px;
+  background-size: cover;
+  background-position: center center;
+}

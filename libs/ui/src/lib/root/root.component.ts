@@ -1,16 +1,21 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   AbstractEntityMetadataService,
-  EntityMetadata,
-  ExtRootConfig,
   EXT_ENTITY_METADATA_SERVICE,
-  EXT_ROOT_CONFIG,
+  FormMetadata,
+  Projection,
   RootAction,
+  RootFormMetadata,
 } from '@extendz/core';
 import { filter, mergeMap, Observable, take, tap } from 'rxjs';
 import { ConfigDataTableComponent } from './config-data-table/config-data-table.component';
 import { FieldsComponent } from './fields/fields.component';
+import { FieldsModel } from './fields/fields.model';
+import {
+  getFieldsFormMetadata,
+  getProjectionFormMetadata,
+} from './fields/fields.utils';
 import { UpsertComponent } from './upsert/upsert.component';
 
 @Component({
@@ -21,10 +26,9 @@ import { UpsertComponent } from './upsert/upsert.component';
 export class RootComponent {
   @Output() action = new EventEmitter<RootAction>();
 
-  models$: Observable<Record<string, EntityMetadata>>;
+  models$: Observable<Record<string, FormMetadata>>;
 
   constructor(
-    @Inject(EXT_ROOT_CONFIG) private rootConfig: ExtRootConfig,
     @Inject(EXT_ENTITY_METADATA_SERVICE)
     private entityMetadataService: AbstractEntityMetadataService,
     private matDialog: MatDialog
@@ -32,17 +36,24 @@ export class RootComponent {
     this.models$ = this.entityMetadataService.getAll().pipe(
       take(1),
       tap((d) => {
-        this.onField(d['category']);
+        // this.onField(d['category']);
         // this.onDataTableConfig();
+        // const pr = d['category'].projections;
+        // this.onProjections();
       })
     );
   }
 
-  onField(entityMetadata: EntityMetadata) {
+  onField(entityMetadata: FormMetadata) {
     this.entityMetadataService
       .getFields(entityMetadata)
       .pipe(
-        mergeMap((data) => {
+        mergeMap((records) => {
+          const nestedFormGroupFieldMetadata = getFieldsFormMetadata();
+          const data: FieldsModel = {
+            data: records,
+            nestedFormGroupFieldMetadata,
+          };
           const ref = this.matDialog.open(FieldsComponent, {
             // minWidth: '90%',
             // minHeight: '60%',
@@ -54,6 +65,15 @@ export class RootComponent {
         filter((d) => d !== undefined)
       )
       .subscribe();
+  }
+
+  onProjections(records: Projection[]) {
+    const nestedFormGroupFieldMetadata = getProjectionFormMetadata();
+    const data: FieldsModel = {
+      data: records,
+      nestedFormGroupFieldMetadata,
+    };
+    this.matDialog.open(FieldsComponent, { data });
   }
 
   onEdit(event: MouseEvent) {
@@ -74,7 +94,7 @@ export class RootComponent {
     });
   }
 
-  onSelect(entityMetadata: EntityMetadata) {
+  onSelect(entityMetadata: FormMetadata) {
     this.action.emit({ type: 'select', payload: entityMetadata });
   }
 }

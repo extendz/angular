@@ -15,6 +15,7 @@ export class BasicComponent {
 
   constructor() {
     this.formMetadata = {
+      id: 'basic',
       layoutAlign: { lg: 'space-between center' },
       fieldMetadata: [
         {

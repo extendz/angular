@@ -1,10 +1,6 @@
-<h2 mat-dialog-title>Fields</h2>
+<h2 mat-dialog-title>{{ metadata?.label }}</h2>
 <mat-dialog-content>
-  <ext-data-table
-    #table
-    [formControl]="formControl"
-    [data]="data"
-  ></ext-data-table>
+  <ext-data-table #table [formControl]="formControl"></ext-data-table>
 </mat-dialog-content>
 <mat-dialog-actions>
   <span fxFlex></span>

@@ -10,4 +10,8 @@
       <!-- <div>Hint</div> -->
     </mat-option>
   </mat-select>
+  <mat-hint>{{ fieldMetadata?.hint }}</mat-hint>
+  <mat-error *ngIf="control?.hasError('required')">
+    {{ fieldMetadata?.label }} is <strong>required</strong>
+  </mat-error>
 </mat-form-field>

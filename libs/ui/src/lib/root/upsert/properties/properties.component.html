@@ -10,10 +10,7 @@
   <mat-divider vertical style="height: auto"></mat-divider>
   <div fxFlex style="padding-left: 16px" *ngIf="currentField !== undefined">
     <!-- {{ fromGroup?.dirty | json }} -->
-    <ext-basic-form
-      [formMetadata]="formMetadata"
-      (form)="setFormGroup($event)"
-    ></ext-basic-form>
+    <ext-basic-form (form)="setFormGroup($event)"></ext-basic-form>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

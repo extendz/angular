@@ -1,3 +1,4 @@
+import { Validators } from '@angular/forms';
 import { ExtFormControl, ExtFormGroup } from './ext-form-control';
 import { FieldMetadata } from './field';
 import { FormMetadata } from './form';
@@ -10,12 +11,12 @@ export function createFormControl(
   if (record != undefined) value = record?.[fieldMetadata.id];
   else if (fieldMetadata.default != undefined) value = fieldMetadata.default;
 
-  const validators = fieldMetadata.validators;
+  const validators = fieldMetadata.validators || [];
 
-  const ctrl = new ExtFormControl(value);
+  if (fieldMetadata.required) validators?.push(Validators.required);
+
+  const ctrl = new ExtFormControl(value, validators);
   ctrl.metadata = fieldMetadata;
-  // if (validators != undefined) ctrl.setValidators(validators);
-
   return ctrl;
 }
 

@@ -16,13 +16,13 @@ const declarations = [EmbeddedObjectListComponent];
   exports: declarations,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatIconModule,
+    EmbeddedObjectListUpsertModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
-    EmbeddedObjectListUpsertModule,
+    MatIconModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
 })
 export class EmbeddedObjectListModule {}

@@ -34,7 +34,4 @@
   </div>
 </form> -->
 
-<ext-basic-form
-  [formMetadata]="formMetadata"
-  (form)="fromGroup = $event; form.emit($event)"
-></ext-basic-form>
+<ext-basic-form (form)="fromGroup = $event; form.emit($event)"></ext-basic-form>

@@ -1,10 +1,13 @@
-<mat-form-field [floatLabel]="fieldMetadata?.floatLabel!">
+<mat-form-field
+  [floatLabel]="fieldMetadata?.floatLabel!"
+  [ngClass]="{ ro: fieldMetadata?.readOnly }"
+>
   <mat-label>{{ fieldMetadata?.label }}</mat-label>
   <input
     matInput
     [name]="fieldMetadata?.label"
     [autocomplete]="fieldMetadata?.autocomplete"
-    [readonly]="fieldMetadata?.readonly"
+    [readonly]="fieldMetadata?.readOnly"
     [placeholder]="fieldMetadata?.placeholder!"
     [formControl]="control"
   />

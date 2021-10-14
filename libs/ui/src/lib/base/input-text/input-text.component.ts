@@ -1,6 +1,10 @@
-import { AfterContentInit, Component, Input } from '@angular/core';
+import { AfterContentInit, Component } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
-import { ExtFormControl, FieldMetadata } from '@extendz/core';
+import {
+  createFormControl,
+  ExtFormControl,
+  FieldMetadata,
+} from '@extendz/core';
 
 @Component({
   selector: 'ext-input-text',
@@ -10,9 +14,11 @@ import { ExtFormControl, FieldMetadata } from '@extendz/core';
 export class InputTextComponent
   implements AfterContentInit, ControlValueAccessor
 {
-  control: FormControl = new FormControl();
+  control!: FormControl;
   fieldMetadata?: FieldMetadata;
+  data?: string;
 
+  private onTouched!: (touch: boolean) => boolean;
   private onChange!: (record: string) => string;
 
   constructor(public ngControl: NgControl) {
@@ -20,19 +26,26 @@ export class InputTextComponent
   }
 
   ngAfterContentInit(): void {
-    this.fieldMetadata = (this.ngControl.control as ExtFormControl).metadata;
+    this.fieldMetadata = (this.ngControl.control as ExtFormControl)
+      .metadata as FieldMetadata;
+    this.control = createFormControl(this.fieldMetadata);
+    this.control.setValue(this.data);
     this.control.valueChanges.subscribe((v) => {
+      if (this.data == v) this.onTouched(false);
+      // else this.onTouched(true);
       this.onChange(v);
     });
   }
 
-  writeValue(value: string): void {
-    this.control.setValue(value);
+  writeValue(data: string): void {
+    this.data = data;
   }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {}
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
 }

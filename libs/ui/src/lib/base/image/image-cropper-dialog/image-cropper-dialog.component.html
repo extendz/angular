@@ -1,0 +1,71 @@
+<mat-dialog-content>
+  <!-- <div fxLayout="column" fxLayoutAlign="center center" class="image-wrapper"> -->
+  <image-cropper
+    class="image-cropper"
+    [imageFile]="currentFile"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="imageMetadata.ratio || 1"
+    [resizeToWidth]="imageMetadata.resizeToWidth"
+    [cropperMinWidth]="128"
+    [onlyScaleDown]="true"
+    [roundCropper]="false"
+    [format]="imageMetadata.format || 'png'"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+    [alignImage]="'center'"
+  >
+  </image-cropper>
+  <mat-progress-bar
+    *ngIf="loading"
+    class="short-progress"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</mat-dialog-content>
+<div
+  mat-dialog-actions
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  class="actions"
+>
+  <!-- <span fxFlex="2"></span> -->
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <!-- <span fxFlex></span> -->
+  <button
+    mat-icon-button
+    [disabled]="this.currentIndex < 1"
+    (click)="onPrevious()"
+  >
+    <ng-content *ngTemplateOutlet="previous"></ng-content>
+  </button>
+  <button
+    *ngIf="files"
+    mat-icon-button
+    [disabled]="currentIndex >= files.length - 1"
+    (click)="onNext()"
+  >
+    <ng-content *ngTemplateOutlet="next"></ng-content>
+  </button>
+  <!-- <span fxFlex></span> -->
+  <button mat-button (click)="onCrop()" cdkFocusInitial>Done</button>
+  <!-- <span fxFlex="2"></span> -->
+</div>
+<!-- </div> -->
+
+<ng-template #next>
+  <mat-icon>
+    <svg id="next" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M5.88 4.12L13.76 12l-7.88 7.88L8 22l10-10L8 2z" />
+    </svg>
+  </mat-icon>
+</ng-template>
+<ng-template #previous>
+  <mat-icon>
+    <svg id="previous" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z" />
+    </svg>
+  </mat-icon>
+</ng-template>

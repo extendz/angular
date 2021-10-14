@@ -1,22 +1,42 @@
+<mat-toolbar *ngIf="showToolbar" fxLayoutAlign="start center">
+  <span>{{ metadata?.label }}</span>
+  <span fxFlex></span>
+  <button
+    *ngFor="let action of actions"
+    mat-icon-button
+    (click)="onAction(action)"
+  >
+    <mat-icon>{{ action?.icon }}</mat-icon>
+  </button>
+</mat-toolbar>
 <form [formGroup]="formGroup">
-  <span fxLayout="row wrap" fxLayoutAlign.gt-md="space-between center">
+  <span fxLayout="row wrap" fxLayoutAlign.gt-md="space-around center">
     <span
-      *ngFor="let f of formMetadata.fieldMetadata"
+      *ngFor="let f of metadata?.fieldMetadata"
       [ngSwitch]="f.type"
       [fxFlex.xs]="f.width?.xs || 100"
       [fxFlex.sm]="f.width?.sm || 48"
       [fxFlex.md]="f.width?.sm || 32"
-      [fxFlex.lg]="f.width?.lg || 24"
+      [fxFlex.lg]="f.width?.lg || 25"
     >
-      <!-- <ng-template ngSwitchCase="string">
-        <ext-input-text [control]="formGroup | formControl: f">
-        </ext-input-text>
-      </ng-template> -->
+      <ng-template ngSwitchCase="string">
+        <ext-input-text [formControlName]="f.id"> </ext-input-text>
+      </ng-template>
 
       <ng-template ngSwitchCase="expandable">
-        <ext-expandable [formControlName]="f.id" [metadata]="f">
-        </ext-expandable>
+        <ext-expandable [formControlName]="f.id"> </ext-expandable>
       </ng-template>
+
+      <ng-template ngSwitchCase="embedded-object">
+        <ext-embedded-object [formControlName]="f.id"> </ext-embedded-object>
+      </ng-template>
+
+      <ng-template ngSwitchCase="embedded-object-list">
+        <ext-embedded-object-list [formControlName]="f.id">
+        </ext-embedded-object-list>
+      </ng-template>
+
+      <h3 *ngSwitchDefault>{{ f.id }}</h3>
 
       <!-- <ng-template ngSwitchCase="boolean">
         <ext-checkbox [fieldMetaData]="f" [control]="getControl(f.id)">
@@ -24,10 +44,7 @@
       </ng-template> -->
 
       <!-- 
-      <ng-template ngSwitchCase="embedded-object">
-        <ext-embedded-object [fieldMetaData]="f" [control]="getControl(f.id)">
-        </ext-embedded-object>
-      </ng-template>
+     
 
       <ng-template ngSwitchCase="color">
         <ext-color-picker [fieldMetaData]="f" [control]="getControl(f.id)">

@@ -1,3 +1,14 @@
 mat-form-field {
-  width: 100%;
+  width: 98%;
+}
+:host ::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+:host mat-icon {
+  display: none;
+}
+
+:host :hover mat-icon {
+  display: flex;
 }
